@@ -30,6 +30,7 @@ import { ChatLoader } from './ChatLoader';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
 import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
+import { ContextWindowSize } from './ContextWindow/ContextWindowSize';
 import { TemperatureSlider } from './Temperature';
 import { MemoizedChatMessage } from './MemoizedChatMessage';
 
@@ -48,6 +49,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       modelError,
       loading,
       prompts,
+      contextWindowSizes,
     },
     handleUpdateConversation,
     dispatch: homeDispatch,
@@ -90,9 +92,10 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         homeDispatch({ field: 'messageIsStreaming', value: true });
         const chatBody: ChatBody = {
           model: updatedConversation.model.name,
+          keep_alive: "5m",
           system: updatedConversation.prompt,
           prompt: updatedConversation.messages.map(message => message.content).join(' '),
-          options: { temperature: updatedConversation.temperature },
+          options: { temperature: updatedConversation.temperature, num_ctx: updatedConversation.contextWindowSize },
         };
         const endpoint = getEndpoint();
         let body;
@@ -347,6 +350,17 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
                       <ModelSelect />
 
+                      <ContextWindowSize
+                        conversation={selectedConversation}
+                        contextWindowSizes={contextWindowSizes}
+                        onChangeContextWindowSize={(contextWindowSize) =>
+                          handleUpdateConversation(selectedConversation, {
+                            key: 'contextWindowSize',
+                            value: contextWindowSize,
+                          })
+                        }
+                      />
+
                       <SystemPrompt
                         conversation={selectedConversation}
                         prompts={prompts}
@@ -357,6 +371,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                           })
                         }
                       />
+
+                      
 
                       <TemperatureSlider
                         label={t('Temperature')}

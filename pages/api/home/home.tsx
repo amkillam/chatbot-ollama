@@ -15,7 +15,7 @@ import {
   cleanConversationHistory,
   cleanSelectedConversation,
 } from '@/utils/app/clean';
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
+import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE, DEFAULT_CONTEXT_WINDOW_SIZE } from '@/utils/app/const';
 import {
   saveConversation,
   saveConversations,
@@ -170,6 +170,7 @@ const Home = ({ defaultModelId }: Props) => {
       messages: [],
       model: lastConversation?.model,
       prompt: DEFAULT_SYSTEM_PROMPT,
+      contextWindowSize: DEFAULT_CONTEXT_WINDOW_SIZE,
       temperature: lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
       folderId: null,
     };
@@ -283,6 +284,7 @@ const Home = ({ defaultModelId }: Props) => {
           messages: [],
           model: OllamaModels[defaultModelId],
           prompt: DEFAULT_SYSTEM_PROMPT,
+          contextWindowSize: DEFAULT_CONTEXT_WINDOW_SIZE,
           temperature: lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
           folderId: null,
         },

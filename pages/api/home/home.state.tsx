@@ -15,6 +15,7 @@ export interface HomeInitialState {
   selectedConversation: Conversation | undefined;
   currentMessage: Message | undefined;
   prompts: Prompt[];
+  contextWindowSizes: bigint[];
   temperature: number;
   showChatbar: boolean;
   showPromptbar: boolean;
@@ -35,6 +36,7 @@ export const initialState: HomeInitialState = {
   selectedConversation: undefined,
   currentMessage: undefined,
   prompts: [],
+  contextWindowSizes: [2048 as unknown as bigint],
   temperature: 1,
   showPromptbar: true,
   showChatbar: true,

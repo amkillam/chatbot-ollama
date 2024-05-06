@@ -9,10 +9,11 @@ export type Role = 'assistant' | 'user';
 
 export interface ChatBody {
   model: string;
+  keep_alive: string;
   system: string;
   prompt: string;
   options?: 
-    { temperature: number }
+    { temperature: number, num_ctx: bigint}
 }
 
 export interface Conversation {
@@ -23,4 +24,5 @@ export interface Conversation {
   prompt: string;
   temperature: number;
   folderId: string | null;
+  contextWindowSize: bigint;
 }
