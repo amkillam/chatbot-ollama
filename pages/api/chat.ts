@@ -28,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
       contextWindowSize = DEFAULT_CONTEXT_WINDOW_SIZE;
     }
 
-    const stream = await OllamaStream (model, promptToSend, temperatureToUse, contextWindowSize, prompt);
+    const stream = await OllamaStream (model, promptToSend, temperatureToUse, contextWindowSize as unknown as string, prompt);
 
     return new Response(stream);
   } catch (error) {
