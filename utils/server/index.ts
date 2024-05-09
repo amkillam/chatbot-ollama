@@ -20,6 +20,7 @@ export const OllamaStream = async (
   model: string,
   systemPrompt: string,
   temperature : number,
+  contextWindowSize: bigint,
   prompt: string,
 ) => {
   let url = `${OLLAMA_HOST}/api/generate`;
@@ -37,9 +38,12 @@ export const OllamaStream = async (
       system: systemPrompt,
       options: {
         temperature: temperature,
+        num_ctx: contextWindowSize
       },
     }),
   });
+
+  console.log(res.body);
 
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();

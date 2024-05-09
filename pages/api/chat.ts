@@ -1,4 +1,4 @@
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
+import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE, DEFAULT_CONTEXT_WINDOW_SIZE } from '@/utils/app/const';
 import { OllamaError, OllamaStream } from '@/utils/server';
 
 import { ChatBody, Message } from '@/types/chat';
@@ -23,7 +23,12 @@ const handler = async (req: Request): Promise<Response> => {
       temperatureToUse = DEFAULT_TEMPERATURE;
     }
 
-    const stream = await OllamaStream (model, promptToSend, temperatureToUse, prompt);
+    let contextWindowSize = options?.num_ctx;
+    if (contextWindowSize == null) {
+      contextWindowSize = DEFAULT_CONTEXT_WINDOW_SIZE;
+    }
+
+    const stream = await OllamaStream (model, promptToSend, temperatureToUse, contextWindowSize, prompt);
 
     return new Response(stream);
   } catch (error) {
